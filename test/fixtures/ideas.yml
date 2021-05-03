@@ -2,8 +2,6 @@
 
 one:
   body: MyText
-  category: one
 
 two:
   body: MyText
-  category: two
