@@ -2,7 +2,11 @@ class IdeasController < ApplicationController
 	def index
     category_name = params[:category_name]
     ideas = Idea.get_ideas(category_name)
-		render json: { data: ideas }
+		if ideas.present?
+			render json: { data: ideas }
+		else
+			render status: 404, json: { status: 404 }
+		end
 	end
 
 	def create
@@ -12,12 +16,15 @@ class IdeasController < ApplicationController
 
 		idea = Idea.new(body: body, category_id: category_id)
 		if idea.save
-			render json: { status: 201, data: idea }
+			render status: 201, json: { status: 201 }
 		else
-			render json: { status: 422, data: idea.errors }
+			render status: 422, json: { status: 422 }
 		end
 	end
 
 	private
 
+	def idea_params
+		params.permit(:category_name, :body)
+	end
 end

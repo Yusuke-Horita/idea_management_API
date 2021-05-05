@@ -19,8 +19,6 @@ class Idea < ApplicationRecord
         hash[:body] = idea.body
         ideas << hash
       end
-    else
-      ideas << "doesn't exist"
     end
     ideas
 	end
