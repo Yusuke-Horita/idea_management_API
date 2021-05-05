@@ -5,10 +5,23 @@ class Idea < ApplicationRecord
   def self.get_ideas(category_name)
 		if category_name.present?
       if category = Category.find_by(name: category_name)
-        @ideas = category.ideas
+        unformatted_ideas = category.ideas
       end
     else
-      @ideas = all
+      unformatted_ideas = all
     end
+    ideas = []
+    if unformatted_ideas.present?
+      unformatted_ideas.each do |idea|
+        hash = {}
+        hash[:id] = idea.id
+        hash[:category] = idea.category.name
+        hash[:body] = idea.body
+        ideas << hash
+      end
+    else
+      ideas << "doesn't exist"
+    end
+    ideas
 	end
 end

@@ -20,7 +20,4 @@ class IdeasController < ApplicationController
 
 	private
 
-	def idea_params
-		params.require(:idea).permit(:category_name, :body)
-	end
 end
