@@ -6,7 +6,7 @@ describe 'IdeaAPI', type: :request do
   context 'アイデアの登録' do
     it '登録に成功し、ステータスコード201が返ってくる' do
       params = {
-        category_name: Faker::Lorem.characters,
+        category_name: Faker::Lorem.characters(number: 10),
         body: Faker::Lorem.sentence(word_count: 3)
       }
       expect { post ideas_path, params: params }.to change(Idea, :count).by(+1)
@@ -39,6 +39,11 @@ describe 'IdeaAPI', type: :request do
       expect(json['data'][0]['id']).to eq idea.id
       expect(json['data'][0]['category']).to eq idea.category.name
       expect(json['data'][0]['body']).to eq idea.body
+    end
+    it '存在しないcategory_nameで、取得失敗し、ステータスコード404が返ってくる' do
+      ideas
+      get ideas_path, params: { category_name: Faker::Lorem.characters(number: 10) }
+      expect(response.status).to eq(404)
     end
   end
 end
